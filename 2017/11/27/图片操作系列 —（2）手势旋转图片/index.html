@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="青蛙要fly">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="图片操作系列 —（2）手势旋转图片"/>
+  <meta property="og:description" content="茫茫编程路上一个迷途小小安卓程序员。" />
+  <meta property="og:site_name" content="搬砖的码农"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.com"/>
+  
+    <link rel="alternate" href="/atom.xml" title="搬砖的码农" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>搬砖的码农</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/images/awesome-bg.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">图片操作系列 —（2）手势旋转图片</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  主页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  目录
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/qaz349293703">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By 青蛙要fly</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-11-27</span>
+            <span class="time">14:47:38</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/Android/">Android</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/Matrix/">#Matrix</a> <a class="tag" href="/tags/PhotoView/">#PhotoView</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>文章摘要：根据手势操作图片<br><a id="more"></a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在上次的文章：<a href="https://juejin.im/post/59fbdf5851882554bd5068ed" target="_blank" rel="noopener">图片操作系列 —（1）手势缩放图片功能</a>中，我们已经学会了如何用手势来对图片进行缩放。这次我们继续来看第二个操作，那就是如何用手势来旋转图片。</p>
+<p>所以我们本文我们一共要实现二个功能：</p>
+<ol>
+<li>根据二个手指头的旋转来使图片跟着旋转</li>
+<li>当二个手指头放开后，图片会自动回归到合适的位置。</li>
+</ol>
+<blockquote>
+<p>我说明下第二个功能点的意思：什么叫回归到合适的位置，比如如图一，我们只转动了一点点，没有超过45度，然后放在手指，然后就会回到图二的样子。但是如果超过了45度，然后放开手指，就回变成图三的样子。<br><img src="https://user-gold-cdn.xitu.io/2017/11/24/15fed086492efd04?w=1080&amp;h=1920&amp;f=png&amp;s=782916" alt="图一"><br><img src="https://user-gold-cdn.xitu.io/2017/11/24/15fed08859eb5f14?w=1080&amp;h=1920&amp;f=png&amp;s=753106" alt="图二"><br><img src="https://user-gold-cdn.xitu.io/2017/11/24/15fed0a50124b1ff?w=1080&amp;h=1920&amp;f=png&amp;s=553416" alt="图三"></p>
+</blockquote>
+<hr>
+<p>前面基本的东西说明我都不说了。比如Matrix等知识。大家可以直接参考<a href="https://juejin.im/post/59fbdf5851882554bd5068ed" target="_blank" rel="noopener">图片操作系列 —（1）手势缩放图片功能</a>。</p>
+<blockquote>
+<p>ps:我这边可以再贴出相关基础的链接：<br><a href="http://blog.csdn.net/cquwentao/article/details/51445269" target="_blank" rel="noopener">android matrix 最全方法详解与进阶（完整篇）</a><br><a href="http://www.cnblogs.com/qiengo/archive/2012/06/30/2570874.html#code" target="_blank" rel="noopener">Android Matrix</a></p>
+</blockquote>
+<hr>
+<h2 id="根据二个手指头的旋转来使图片跟着旋转："><a href="#根据二个手指头的旋转来使图片跟着旋转：" class="headerlink" title="根据二个手指头的旋转来使图片跟着旋转："></a>根据二个手指头的旋转来使图片跟着旋转：</h2><p>我们知道使图片进行旋转特定的角度很简单：</p>
+<p>使用<code>Matrix.postRotate(float degrees, float px, float py)</code>方法即可。绕着<code>(px,py)</code>点进行旋转<code>degrees</code>角度。</p>
+<p>所以我们的问题就变成了如果获取二个手指头在做旋转手势的时候，相应的角度的变化，从而通过Matrix.postRotate方法来让图片也跟着变化。</p>
+<h4 id="1-获取二个手指头的手势监听"><a href="#1-获取二个手指头的手势监听" class="headerlink" title="1.获取二个手指头的手势监听"></a>1.获取二个手指头的手势监听</h4><p>在<a href="https://juejin.im/post/59fbdf5851882554bd5068ed" target="_blank" rel="noopener">图片操作系列 —（1）手势缩放图片功能</a>文中我们知道，控制图片的缩放是专门有个<code>ScaleGestureDetector</code>;在<code>OnTouch</code>事件中把相应的事件传递给<code>ScaleGestureDetector</code>。然后监听处理。我们也可以模仿着写一个<code>RotateGestureDetector</code>来进行图片旋转的监听和处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public interface IRotateDetector &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * handle rotation in onTouchEvent</span><br><span class="line">     *</span><br><span class="line">     * @param event The motion event.</span><br><span class="line">     * @return True if the event was handled, false otherwise.</span><br><span class="line">     */</span><br><span class="line">    boolean onTouchEvent(MotionEvent event);</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">     * is the Gesture Rotate</span><br><span class="line">     *</span><br><span class="line">     * @return true:rotating;false,otherwise</span><br><span class="line">     */</span><br><span class="line">    boolean isRotating();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">public class RotateGestureDetector implements IRotateDetector&#123;</span><br><span class="line"></span><br><span class="line">    private int mLastAngle = 0;//最后一次的角度值</span><br><span class="line">    private IRotateListener mListener;//用来旋转的回调Listener</span><br><span class="line">    private boolean mIsRotate;//是否处于旋转</span><br><span class="line"></span><br><span class="line">    //用来设置回调Listener的方法</span><br><span class="line">    public void setRotateListener(IRotateListener listener) &#123;</span><br><span class="line">        this.mListener = listener;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //用来接收触摸事件</span><br><span class="line">    @Override</span><br><span class="line">    public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line">        return doRotate(event);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //真正的计算手势操作所得到的角度值的方法，及回调调用。</span><br><span class="line">    private boolean doRotate(MotionEvent ev) &#123;</span><br><span class="line">        if (ev.getPointerCount() != 2) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        //Calculate the angle between the two fingers</span><br><span class="line">        int pivotX = (int) (ev.getX(0) + ev.getX(1)) / 2;</span><br><span class="line">        int pivotY = (int) (ev.getY(0) + ev.getY(1)) / 2;</span><br><span class="line">        float deltaX = ev.getX(0) - ev.getX(1);</span><br><span class="line">        float deltaY = ev.getY(0) - ev.getY(1);</span><br><span class="line"></span><br><span class="line">        double radians = Math.atan(deltaY / deltaX);</span><br><span class="line"></span><br><span class="line">        int degrees = (int) Math.round(Math.toDegrees(Math.atan2(deltaY,deltaX)));</span><br><span class="line"></span><br><span class="line">        switch (ev.getActionMasked()) &#123;</span><br><span class="line">            case MotionEvent.ACTION_DOWN:</span><br><span class="line">                mLastAngle = degrees;</span><br><span class="line">                mIsRotate = false;</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_UP:</span><br><span class="line">                mIsRotate = false;</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_POINTER_DOWN:</span><br><span class="line">                mLastAngle = degrees;</span><br><span class="line">                mIsRotate = false;</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_CANCEL:</span><br><span class="line">            case MotionEvent.ACTION_POINTER_UP:</span><br><span class="line">                mIsRotate = false;</span><br><span class="line">                upRotate(pivotX, pivotY);</span><br><span class="line">                mLastAngle = degrees;</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_MOVE:</span><br><span class="line">                mIsRotate = true;</span><br><span class="line">                int degreesValue = degrees  - mLastAngle;</span><br><span class="line">                if (degreesValue &gt; 45) &#123;</span><br><span class="line">                    //Going CCW across the boundary</span><br><span class="line">                    rotate(-5, pivotX, pivotY);</span><br><span class="line">                &#125; else if (degreesValue &lt; -45) &#123;</span><br><span class="line">                    //Going CW across the boundary</span><br><span class="line">                    rotate(5, pivotX, pivotY);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    //Normal rotation, rotate the difference</span><br><span class="line">                    rotate(degreesValue, pivotX, pivotY);</span><br><span class="line">                &#125;</span><br><span class="line">                //Save the current angle</span><br><span class="line">                mLastAngle = degrees;</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //回调的方法之一：控制图片根据手势的变化实时进行旋转</span><br><span class="line">    private void rotate(int degree, int pivotX, int pivotY) &#123;</span><br><span class="line">        if (mListener != null) &#123;</span><br><span class="line">            mListener.rotate(degree, pivotX, pivotY);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //回调的方法之一：最后某个手指放开后，控制图片自动回归到合适的位置。</span><br><span class="line">    private void upRotate(int pivotX, int pivotY) &#123;</span><br><span class="line">        if (mListener != null) &#123;</span><br><span class="line">            mListener.upRotate(pivotX, pivotY);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-获取二个手指头的角度变化"><a href="#2-获取二个手指头的角度变化" class="headerlink" title="2.获取二个手指头的角度变化"></a>2.获取二个手指头的角度变化</h4><p>所以我们只需要来分析一下具体<code>OnTouch</code>事件中的<code>doRotate</code>方法即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">//真正的计算手势操作所得到的角度值的方法，及回调调用。</span><br><span class="line">private boolean doRotate(MotionEvent ev) &#123;</span><br><span class="line">    //如果触摸的手指头不是2个，直接返回。</span><br><span class="line">    if (ev.getPointerCount() != 2) &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获取二个手指头的中心点的X与Y值，等会选择二个手指头的中心点作为旋转的中心</span><br><span class="line">    int pivotX = (int) (ev.getX(0) + ev.getX(1)) / 2;</span><br><span class="line">    int pivotY = (int) (ev.getY(0) + ev.getY(1)) / 2;</span><br><span class="line">    //获取二个手指头之间的X和Y的差值</span><br><span class="line">    float deltaX = ev.getX(0) - ev.getX(1);</span><br><span class="line">    float deltaY = ev.getY(0) - ev.getY(1);</span><br><span class="line">    //获取角度</span><br><span class="line">    int degrees = (int) Math.round(Math.toDegrees(Math.atan2(deltaY,deltaX)));</span><br><span class="line"></span><br><span class="line">    switch (ev.getActionMasked()) &#123;</span><br><span class="line">        case MotionEvent.ACTION_DOWN:</span><br><span class="line">            mLastAngle = degrees;</span><br><span class="line">            mIsRotate = false;</span><br><span class="line">            break;</span><br><span class="line">        case MotionEvent.ACTION_UP:</span><br><span class="line">            mIsRotate = false;</span><br><span class="line">            break;</span><br><span class="line">        case MotionEvent.ACTION_POINTER_DOWN:</span><br><span class="line">            mLastAngle = degrees;</span><br><span class="line">            mIsRotate = false;</span><br><span class="line">            break;</span><br><span class="line">        case MotionEvent.ACTION_CANCEL:</span><br><span class="line">        case MotionEvent.ACTION_POINTER_UP:</span><br><span class="line">            mIsRotate = false;</span><br><span class="line">            upRotate(pivotX, pivotY);</span><br><span class="line">            mLastAngle = degrees;</span><br><span class="line">            break;</span><br><span class="line">        case MotionEvent.ACTION_MOVE:</span><br><span class="line">            mIsRotate = true;</span><br><span class="line">            /*</span><br><span class="line">            每次把上一次的角度赋值给mLastAngle，然后获取当前新获取的角度degrees，</span><br><span class="line">            二者相减获取到二个手指头在移动的时候相应的角度变化。</span><br><span class="line">            */</span><br><span class="line">            int degreesValue = degrees  - mLastAngle;</span><br><span class="line"></span><br><span class="line">            /*</span><br><span class="line">            这里主要出现这么个情况，二个手指头如果相隔有一段距离，那么在移动的过程中，角度不会一下子变化很大.</span><br><span class="line">            但是比如我们这里故意二个手指头是碰在一起的,然后二个手指头稍微动一下，你就会发现角度变化会很大。</span><br><span class="line">            这样图片就会瞬间也旋转了很大的角度，让人体验感觉很怪，所以我们这里瞬间顺时针或者逆时针超过45度，都只移动5度值。</span><br><span class="line">            */</span><br><span class="line">            if (degreesValue &gt; 45) &#123;</span><br><span class="line">                rotate(-5, pivotX, pivotY);</span><br><span class="line">            &#125; else if (degreesValue &lt; -45) &#123;</span><br><span class="line">                rotate(5, pivotX, pivotY);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                rotate(degreesValue, pivotX, pivotY);</span><br><span class="line">            &#125;</span><br><span class="line">            //Save the current angle</span><br><span class="line">            mLastAngle = degrees;</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而<code>doRotate方法</code>中最主要的就是根据二个手指头触摸获取到的X,Y的差值，根据Math.atan2来获取到角度。我们具体来看下为什么这样可以来获取角度：</p>
+<p>先附上一个基础概念：<a href="http://bywyu.blog.163.com/blog/static/18999318620113159917830/" target="_blank" rel="noopener">Math.atan与Math.atan2</a></p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/11/27/15ffb58e8a64f37a?w=835&amp;h=612&amp;f=png&amp;s=18344" alt=""></p>
+<p>假设我们先点击了(50,50),再点击(10,10),这时候我们的deltaX = 40，deltaY = 40;也就是说<br>我们的弧度就是<code>Math.atan2(40,40)</code>，而角度就是再用<code>Math.toDegrees</code>对弧度进行转换即可。最终获得额角度是45度。</p>
+<p>我们可以通过图形来查看为什么Math.atan2(40,40)对应的角度是45度。<br><img src="https://user-gold-cdn.xitu.io/2017/11/27/15ffb61f2dc8e0ff?w=424&amp;h=454&amp;f=png&amp;s=7080" alt=""></p>
+<p>如果我们的第二个手指头从(10,10)移动到了(50,10)，也就是说最后变成了<code>Math.atan2(40,0)</code>,根据图形来看我们就知道是：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/11/27/15ffb688d0ffcdf9?w=464&amp;h=559&amp;f=png&amp;s=8231" alt=""></p>
+<p>所以一共旋转了45度，所以我们的图片也跟着顺时针旋转45度即可。</p>
+<p>那假如我们的二个手指头的放入顺序反过来，变成：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/11/27/15ffb6bd4585c14f?w=802&amp;h=629&amp;f=png&amp;s=18370" alt=""></p>
+<p>那这时候就变成了<code>Math.atan2(-40,-40)</code>,我们根据图形就知道了角度：<br><img src="https://user-gold-cdn.xitu.io/2017/11/27/15ffb6fe1f338929?w=546&amp;h=575&amp;f=png&amp;s=9892" alt=""></p>
+<p>这时候还是跟刚才一样的操作，把（10,10）这个点移动到了（50,10），那这时候就是<code>Math.atan2(-40,0)</code>;</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/11/27/15ffb73f97303f16?w=505&amp;h=528&amp;f=png&amp;s=8793" alt=""></p>
+<p>所以最终得到的旋转的角度是（-135）-（-90） = 45度，所以最终也是顺时针旋转45度。所以我们不管是哪个手指头先放下都不影响结果。</p>
+<blockquote>
+<p>也许有人就会问了,你这边按照二个手指的中点作为旋转中心去旋转，岂不是会旋转超出原来的图片的边界。如果你还记得我们上一篇文章：<a href="https://juejin.im/post/59fbdf5851882554bd5068ed" target="_blank" rel="noopener">图片操作系列 —（1）手势缩放图片功能</a>，这篇文章最后的内容讲的就是当图片超过边界，如果能随着手势慢慢回到边界里面：<code>checkMatrixBounds()</code>。</p>
+</blockquote>
+<h4 id="3-在Activity中设置Listener来进行图片的旋转"><a href="#3-在Activity中设置Listener来进行图片的旋转" class="headerlink" title="3.在Activity中设置Listener来进行图片的旋转"></a>3.在Activity中设置Listener来进行图片的旋转</h4><p>然后我们只需要在相应的Activity处对回调回来的<code>(degreesValue, pivotX, pivotY)</code>三个值做相应的旋转即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">rotateGestureDetector.setRotateListener(new IRotateListener() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void rotate(int degree, int pivotX, int pivotY) &#123;</span><br><span class="line">        //图片跟着手势进行旋转</span><br><span class="line">        mSuppMatrix.postRotate(degree, pivotX, pivotY);</span><br><span class="line">        //Post the rotation to the image</span><br><span class="line">        checkAndDisplayMatrix();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void upRotate(int pivotX, int pivotY) &#123;</span><br><span class="line"></span><br><span class="line">        //当手指头松开的时候，让图片自动更新到合适的位置。</span><br><span class="line">        float[] v = new float[9];</span><br><span class="line">        mSuppMatrix.getValues(v);</span><br><span class="line">        // calculate the degree of rotation</span><br><span class="line">        int angle = (int) Math.round(Math.toDegrees(Math.atan2(v[Matrix.MSKEW_Y], v[Matrix.MSCALE_X])));</span><br><span class="line"></span><br><span class="line">        mRightAngleRunnable = new RightAngleRunnable(angle, pivotX, pivotY);</span><br><span class="line">        photoView.post(mRightAngleRunnable);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="手指头松开手图片自动旋转到合适位置："><a href="#手指头松开手图片自动旋转到合适位置：" class="headerlink" title="手指头松开手图片自动旋转到合适位置："></a>手指头松开手图片自动旋转到合适位置：</h2><p>我们知道，前面图片跟着旋转，是获取到了<code>(int degree, int pivotX, int pivotY)</code>这三个值，然后让<code>mSuppMatrix.postRotate(degree, pivotX, pivotY)</code>;那我们就当手指头松开的时候，获取到最终这个图片比原来变化了多少角度即可。然后根据这个当前最终图片的变化角度来进行适当的旋转，让其旋转到合适位置。</p>
+<p>我们来具体看怎么实现的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void upRotate(int pivotX, int pivotY) &#123;</span><br><span class="line"></span><br><span class="line">    //当手指头松开的时候，让图片自动更新到合适的位置。</span><br><span class="line">    float[] v = new float[9];</span><br><span class="line">    mSuppMatrix.getValues(v);</span><br><span class="line">    // calculate the degree of rotation</span><br><span class="line">    int angle = (int) Math.round(Math.toDegrees(Math.atan2(v[Matrix.MSKEW_Y], v[Matrix.MSCALE_X])));</span><br><span class="line"></span><br><span class="line">    mRightAngleRunnable = new RightAngleRunnable(angle, pivotX, pivotY);</span><br><span class="line">    photoView.post(mRightAngleRunnable);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p><a href="https://www.cnblogs.com/pen-ink/archive/2013/06/05/3118289.html" target="_blank" rel="noopener">Matrix</a>，中文里叫矩阵，高等数学里有介绍，在图像处理方面，主要是用于平面的缩放、平移、旋转等操作。在Android里面，Matrix由9个float值构成，是一个3*3的矩阵。最好记住。如下图：<br><img src="https://user-gold-cdn.xitu.io/2017/11/27/15ffbfd65b731693?w=343&amp;h=83&amp;f=jpeg&amp;s=8342" alt=""><br><img src="https://user-gold-cdn.xitu.io/2017/11/27/15ffbfd991ac4300?w=364&amp;h=278&amp;f=png&amp;s=51612" alt=""><img src="https://user-gold-cdn.xitu.io/2017/11/27/15ffbfdaadf9db54?w=143&amp;h=67&amp;f=jpeg&amp;s=4380" alt=""></p>
+</blockquote>
+<p>我们发现mSuppMatrix.getValues(v)方法返回的9个float值中，第一个为cosX,第四个为sinX，所以我们就取下标为0和3的值，也就是MSCALE_X和MSKEW_Y。我们用<code>Math.atan2(v[Matrix.MSKEW_Y], v[Matrix.MSCALE_X])来获取弧度。再用Math.toDegrees来获取相应的最终图片的旋转的度数。</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class Matrix &#123;</span><br><span class="line"></span><br><span class="line">    public static final int MSCALE_X = 0;   //!&lt; use with getValues/setValues</span><br><span class="line">    public static final int MSKEW_X  = 1;   //!&lt; use with getValues/setValues</span><br><span class="line">    public static final int MTRANS_X = 2;   //!&lt; use with getValues/setValues</span><br><span class="line">    public static final int MSKEW_Y  = 3;   //!&lt; use with getValues/setValues</span><br><span class="line">    public static final int MSCALE_Y = 4;   //!&lt; use with getValues/setValues</span><br><span class="line">    public static final int MTRANS_Y = 5;   //!&lt; use with getValues/setValues</span><br><span class="line">    public static final int MPERSP_0 = 6;   //!&lt; use with getValues/setValues</span><br><span class="line">    public static final int MPERSP_1 = 7;   //!&lt; use with getValues/setValues</span><br><span class="line">    public static final int MPERSP_2 = 8;   //!&lt; use with getValues/setValues</span><br><span class="line"></span><br><span class="line">    ......</span><br><span class="line">    ......</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们再把获取到的角度和中心点，通过一个Runnable来进行图片最后的矫正：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mRightAngleRunnable = new RightAngleRunnable(angle, pivotX, pivotY);</span><br><span class="line">photoView.post(mRightAngleRunnable);</span><br></pre></td></tr></table></figure></p>
+<p>我们知道最后是RightAngleRunnable来进行图片的矫正，所以我们具体来分析下这个Runnable:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">class RightAngleRunnable implements Runnable &#123;</span><br><span class="line">        private static final int RECOVER_SPEED = 4;</span><br><span class="line">        private int mOldDegree;</span><br><span class="line">        private int mNeedToRotate;</span><br><span class="line">        private int mRoPivotX;</span><br><span class="line">        private int mRoPivotY;</span><br><span class="line"></span><br><span class="line">        RightAngleRunnable(int degree, int pivotX, int pivotY) &#123;</span><br><span class="line">            Log.v(&quot;dyp4&quot;, &quot;oldDegree:&quot; + degree + &quot;,&quot; + &quot;calDegree:&quot; + calDegree(degree));</span><br><span class="line">            this.mOldDegree = degree;</span><br><span class="line">            this.mNeedToRotate = calDegree(degree);</span><br><span class="line">            this.mRoPivotX = pivotX;</span><br><span class="line">            this.mRoPivotY = pivotY;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //最终计算需要矫正的角度值</span><br><span class="line">        /*</span><br><span class="line">            例如：</span><br><span class="line"></span><br><span class="line">            比如最终是60度，这时候其实是超过了45度，应该矫正成90度，</span><br><span class="line">            所以最终要多给它30度。顺时针多选择30度。这里计算会得到30。</span><br><span class="line"></span><br><span class="line">            比如如果是-60度，这时候应该是变成-90读，所以我们逆时针多旋转30度。</span><br><span class="line">            这时候计算会得到-30。</span><br><span class="line"></span><br><span class="line">            如果是20度，这时候没有超过45度，所以应该矫正成0度，</span><br><span class="line">            所以最终要逆时针转回20度，所以这里计算会得到-20。</span><br><span class="line"></span><br><span class="line">            如果是-120度，这时候要变成-90度，所以要顺时针转回30度，</span><br><span class="line">            所以计算会得到30。</span><br><span class="line">        */</span><br><span class="line">        private int calDegree(int oldDegree) &#123;</span><br><span class="line">            int N = Math.abs(oldDegree) / 45;</span><br><span class="line">            if ((0 &lt;= N &amp;&amp; N &lt; 1) || 2 &lt;= N &amp;&amp; N &lt; 3) &#123;</span><br><span class="line">                return -oldDegree % 45;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                if (oldDegree &lt; 0) &#123;</span><br><span class="line">                    return -(45 + oldDegree % 45);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    return (45 - oldDegree % 45);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">        我们上面的calDegree方法可以获得我们需要矫正的角度，但是我们不是一下子就让图片选择N度，而是慢慢的转过来。</span><br><span class="line">        比如我们用RECOVER_SPEED = 4，4度的慢慢来旋转过来，不会给用户很突兀的感觉。</span><br><span class="line">        */</span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            if (mNeedToRotate == 0) &#123;</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            if (photoView == null) &#123;</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            if (mNeedToRotate &gt; 0) &#123;</span><br><span class="line">                //Clockwise rotation</span><br><span class="line">                if (mNeedToRotate &gt;= RECOVER_SPEED) &#123;</span><br><span class="line">                    mSuppMatrix.postRotate(RECOVER_SPEED, mRoPivotX, mRoPivotY);</span><br><span class="line">                    mNeedToRotate -= RECOVER_SPEED;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    mSuppMatrix.postRotate(mNeedToRotate, mRoPivotX, mRoPivotY);</span><br><span class="line">                    mNeedToRotate = 0;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else if (mNeedToRotate &lt; 0) &#123;</span><br><span class="line">                //Counterclockwise rotation</span><br><span class="line">                if (mNeedToRotate &lt;= -RECOVER_SPEED) &#123;</span><br><span class="line">                    mSuppMatrix.postRotate(-RECOVER_SPEED, mRoPivotX, mRoPivotY);</span><br><span class="line">                    mNeedToRotate += RECOVER_SPEED;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    mSuppMatrix.postRotate(mNeedToRotate, mRoPivotX, mRoPivotY);</span><br><span class="line">                    mNeedToRotate = 0;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            checkAndDisplayMatrix();</span><br><span class="line">            Compat.postOnAnimation(photoView, this);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>还是老样子，希望大家不要吐槽。有问题留言哈哈。。O(∩_∩)O哈哈~<br>PS：有好的画图软件介绍吗。。求介绍o(╥﹏╥)o</p>
+<p>附上Demo地址：<a href="https://github.com/qaz349293703/ScaleImageVewDemo" target="_blank" rel="noopener">ScaleImageVewDemo</a>（已经把图片旋转的Activity demo 加入里面）</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted" style="font-size: medium">
+          相关传送地址：
+        </p>
+
+        <p class="copyright text-muted" style="font-size: medium">
+          <a href="http://www.jianshu.com/u/5aad180d1ea8">简书个人链接</a>
+          <a href="https://juejin.im/user/56e0cd86f3609a0054e4a3c4">掘金个人链接</a>
+        </p>
+
+
+        <p class="copyright text-muted" style="display: none">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted" style="display: none">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+

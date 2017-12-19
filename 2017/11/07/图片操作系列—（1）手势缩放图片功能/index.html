@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="青蛙要fly">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="图片操作系列 —（1）手势缩放图片功能"/>
+  <meta property="og:description" content="茫茫编程路上一个迷途小小安卓程序员。" />
+  <meta property="og:site_name" content="搬砖的码农"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.com"/>
+  
+    <link rel="alternate" href="/atom.xml" title="搬砖的码农" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>搬砖的码农</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/images/awesome-bg.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">图片操作系列 —（1）手势缩放图片功能</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  主页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  目录
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/qaz349293703">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By 青蛙要fly</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-11-07</span>
+            <span class="time">14:47:38</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/Android/">Android</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/Matrix/">#Matrix</a> <a class="tag" href="/tags/PhotoView/">#PhotoView</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>文章摘要：根据手势操作图片<br><a id="more"></a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1529568-b9fda7a0f041e6ba.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>项目开发中，大家APP开发一般都会用到上传图片，比如是上传了自己的生活照，然后在某个界面处查看上传的图片，这时候一般在这个查看详情的界面，会有手势放大缩小功能，手势进行旋转功能，双击放大图片等等。</p>
+<p>不巧，我以前也有需要这个需求的时候，而且特别指出了要用手势进行图片的选择功能。</p>
+<p>于是我查看了BiliBili的开源库：</p>
+<h3 id="Boxing"><a href="#Boxing" class="headerlink" title="Boxing"></a><a href="https://github.com/Bilibili/boxing" target="_blank" rel="noopener">Boxing</a></h3><p><img src="http://upload-images.jianshu.io/upload_images/1529568-e55ef7f86878961c?imageMogr2/auto-orient/strip" alt="image"></p>
+<p>使用了这个Demo后发现里面有手势控制图片大小，手势控制图片旋转等功能，看了代码后我发现BiliBili这个demo中也是用了第三方的库：</p>
+<h3 id="RotatePhotoView"><a href="#RotatePhotoView" class="headerlink" title="RotatePhotoView"></a><a href="https://github.com/ChenSiLiang/RotatePhotoView" target="_blank" rel="noopener">RotatePhotoView</a></h3><p><img src="http://upload-images.jianshu.io/upload_images/1529568-bceb55c131366d0e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"><br><img src="http://upload-images.jianshu.io/upload_images/1529568-cdf4916a57ece3b4?imageMogr2/auto-orient/strip" alt="image"></p>
+<p>我们可以看到介绍：在PhotoView的基础上添加了通过二个手指来旋转图片的功能，所以这个库又是用了其他的第三方库：</p>
+<h3 id="PhotoView"><a href="#PhotoView" class="headerlink" title="PhotoView"></a><a href="https://github.com/chrisbanes/PhotoView" target="_blank" rel="noopener">PhotoView</a></h3><p>我们可以看到这个PhotoView的库有一万多个star了。说明还是很不错的。</p>
+<p>所以通过这次。我就来看PhotoView如何进行实现那么多功能。</p>
+<hr>
+<h2 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h2><blockquote>
+<p>大家在看正文之前如果对于Matrix不是很了解的，可以先看看:<br><a href="http://blog.csdn.net/cquwentao/article/details/51445269" target="_blank" rel="noopener">android matrix 最全方法详解与进阶（完整篇）</a><br><a href="http://www.cnblogs.com/qiengo/archive/2012/06/30/2570874.html#code" target="_blank" rel="noopener">Android Matrix</a><br><a href="http://www.jianshu.com/p/ca4dbe764451" target="_blank" rel="noopener">Float中的那些常量 Infinity、NaN</a></p>
+</blockquote>
+<p>本来是想直接拿着PhotoView 的源码，贴上源码分析一个个具体的功能，但是因为源码是考虑到很多功能，所以有很多代码量，而且太多看着很乱，所以我的方案是直接自己写个demo，然后根据我们要讲解的功能，仿照PhotoView的源码，在自己一个个具体的功能demo分别实现。所以本文我先来实现实现根据手势来实现图片的缩放功能：</p>
+<h3 id="1-添加图片布局"><a href="#1-添加图片布局" class="headerlink" title="1.添加图片布局"></a>1.添加图片布局</h3><p>PhotoView是继承了ImageView，然后直接在layout中使用<photoview>，为了更方便的讲解，我就直接还是使用<imageview>，然后让大家看到是如何对ImageView做处理实现相应的功能。</imageview></photoview></p>
+<p>先添加我们要的demo布局：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    tools:context=&quot;com.example.dialog.photoviewdemo.MainActivity&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ImageView</span><br><span class="line">        android:id=&quot;@+id/photo_view&quot;</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;match_parent&quot;</span><br><span class="line">        android:background=&quot;@android:color/black&quot;</span><br><span class="line">        /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-对图片设置手势监听"><a href="#2-对图片设置手势监听" class="headerlink" title="2. 对图片设置手势监听"></a>2. 对图片设置手势监听</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">    super.onCreate(savedInstanceState);</span><br><span class="line">    setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">    //对我们的ImageView设置相应的一张图片</span><br><span class="line">    ivPhoto = (ImageView) findViewById(R.id.photo_view);</span><br><span class="line">    drawable = ContextCompat.getDrawable(this, R.mipmap.ic_launcher);</span><br><span class="line">    ivPhoto.setImageDrawable(drawable);</span><br><span class="line"></span><br><span class="line">    //对我们的ImageView设置触摸事件监听，并且把监听交给了GestureDetector.</span><br><span class="line">    ivPhoto.setOnTouchListener(new View.OnTouchListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public boolean onTouch(View v, MotionEvent event) &#123;</span><br><span class="line">           return scaleGestureDetector.onTouchEvent(event);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    //GestureDetector的实例生成</span><br><span class="line">    scaleGestureDetector = new ScaleGestureDetector(this, new ScaleGestureDetector.OnScaleGestureListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public boolean onScale(ScaleGestureDetector detector) &#123;</span><br><span class="line">            float scaleFactor = detector.getScaleFactor();</span><br><span class="line">            float focusX = detector.getFocusX();</span><br><span class="line">            float focusY = detector.getFocusY();</span><br><span class="line">            if (Float.isNaN(scaleFactor) || Float.isInfinite(scaleFactor)) &#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            mSuppMatrix.postScale(scaleFactor, scaleFactor, focusX, focusY);</span><br><span class="line">            if(checkMatrixBounds()) &#123;</span><br><span class="line">                ivPhoto.setImageMatrix(getDrawMatrix());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public boolean onScaleBegin(ScaleGestureDetector detector) &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onScaleEnd(ScaleGestureDetector detector) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据上面的代码我们一样样来分析：</p>
+<h4 id="1-GestureDetector和ScaleGestureDetector"><a href="#1-GestureDetector和ScaleGestureDetector" class="headerlink" title="1.GestureDetector和ScaleGestureDetector"></a>1.GestureDetector和ScaleGestureDetector</h4><p>当用户触摸屏幕的时候，会产生许多手势，例如down，up，scroll，filing等等。<br>一般情况下，我们知道View类有个View.OnTouchListener内部接口，通过重写他的onTouch(View v, MotionEvent event)方法，我们可以处理一些touch事件，但是这个方法太过简单，如果需要处理一些复杂的手势，用这个接口就会很麻烦（因为我们要自己根据用户触摸的轨迹去判断是什么手势）。<br>Android sdk给我们提供了GestureDetector（Gesture：手势Detector：识别）类，通过这个类我们可以识别很多的手势，主要是通过他的onTouchEvent(event)方法完成了不同手势的识别。虽然他能识别手势，但是不同的手势要怎么处理，应该是提供给程序员实现的。<br>具体具体可以看这篇文章，写的很详细：<a href="http://blog.csdn.net/harvic880925/article/details/39520901" target="_blank" rel="noopener">用户手势检测-GestureDetector使用详解</a></p>
+<p>而此处我们因为做的功能是通过手势来<strong>缩放图片</strong>，所以我们就要监听二个手指头<strong>缩放动作</strong>,所以我们使用的是<strong>ScaleGestureDetector</strong>。</p>
+<blockquote>
+<p>ScaleGestureDetector介绍:<br>用于处理缩放的工具类，用法与GestureDetector类似，都是通过onTouchEvent()关联相应的MotionEvent的。使用该类时，用户需要传入一个完整的连续不断地motion事件（包含ACTION_DOWN,ACTION_MOVE和ACTION_UP事件）。</p>
+</blockquote>
+<p>我们看上面的代码就会发现ScaleGestureDetector有三个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onScale(ScaleGestureDetector detector) &#123;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public boolean onScaleBegin(ScaleGestureDetector detector) &#123;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onScaleEnd(ScaleGestureDetector detector) &#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>onScaleBegin</code>:缩放开始会执行的方法，但是我们发现这个方法需要返回一个<code>Boolean</code>值，这个值决定是否处理后继的缩放事件,返回<code>false</code>时，不会执行<code>onScale()</code>。</p>
+<p><code>onScaleEnd</code>:缩放结束执行</p>
+<p><code>onScale</code>:缩放时候执行的方法，用来做具体的逻辑处理。</p>
+<p>我们具体来看看<code>onScale</code>方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onScale(ScaleGestureDetector detector) &#123;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们可以看到这里是返回Boolean值，那这里返回true和false有什么区别呢。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">float scaleFactor = detector.getScaleFactor();</span><br></pre></td></tr></table></figure></p>
+<p>我们可以通过这个方法获取到缩放因子，缩放因子会根据你的手势的变大会越来越大，如果你返回了true，那就说明这次的缩放行为就已经结束了，如果你返回了false，那就说明没有结束，然后缩放因子越来越大。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public boolean onScale(ScaleGestureDetector detector) &#123;</span><br><span class="line">    if(detector.getScaleFactor()&lt; 2)&#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1529568-74a87c0ad76212ae?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"><br>我们可以看到，我们设置了大于2才返回true，（前提二个手指是做放大手势）那么缩放因子就会一直变大到2，才会认为这次缩放行为结束了，就再次从1开始了。</p>
+<blockquote>
+<p>（PS:如果二个手指做缩小的手势，那么这个缩放因子就会小于1，如果返回false，那么就会从1开始越来越小。）</p>
+</blockquote>
+<h4 id="2-图片初始化呈现状态"><a href="#2-图片初始化呈现状态" class="headerlink" title="2.图片初始化呈现状态"></a>2.图片初始化呈现状态</h4><p>假设我们现在的ImageView设置的是全屏，我们有个小图片，ImageView设置了图片后是这样的：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1529568-26db8cc8d9562255?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>我们发现默认是在左上角，而且因为我们的ImageView设置的是全屏，而图片又特别小，这样的初步呈现方式很不友好。<br>所以我们要做如下操作：<br><strong><1>把图片居中显示。</1></strong><br><strong><2>图片和ImageView相适应(我们这里是把图片适当的放大，来适应这么大的ImageView.)</2></strong></p>
+<p>所以也就是我们上面提到过的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">drawableWidth = drawable.getIntrinsicWidth();</span><br><span class="line">drawableHeight = drawable.getIntrinsicHeight();</span><br><span class="line"></span><br><span class="line">viewWidth = ivPhoto.getWidth() - ivPhoto.getPaddingLeft() - ivPhoto.getPaddingRight();</span><br><span class="line">viewHeight = ivPhoto.getHeight() - ivPhoto.getPaddingLeft() - ivPhoto.getPaddingRight();</span><br><span class="line">RectF mTempScr = new RectF(0, 0, drawableWidth, drawableHeight);</span><br><span class="line">RectF mTempDst = new RectF(0, 0, viewWidth, viewHeight);</span><br><span class="line">mBaseMatrix.setRectToRect(mTempScr, mTempDst, Matrix.ScaleToFit.CENTER);</span><br><span class="line">mDrawableMatrix.set(mBaseMatrix);</span><br><span class="line">ivPhoto.setImageMatrix(mDrawableMatrix);</span><br></pre></td></tr></table></figure></p>
+<p>获取图片的真实宽高和ImageView用来显示图片的宽高我就不多说了。重点是<code>setRectToRect</code>方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public boolean setRectToRect(RectF src, RectF dst, ScaleToFit stf)</span><br></pre></td></tr></table></figure>
+<p>将rect变换成rect，通过stf参数来控制。</p>
+<blockquote>
+<p>ScaleToFit 有如下四个值：<br>FILL: 可能会变换矩形的长宽比，保证变换和目标矩阵长宽一致。<br>START:保持坐标变换前矩形的长宽比，并最大限度的填充变换后的矩形。至少有一边和目标矩形重叠。左上对齐。<br>CENTER: 保持坐标变换前矩形的长宽比，并最大限度的填充变换后的矩形。至少有一边和目标矩形重叠。<br>END:保持坐标变换前矩形的长宽比，并最大限度的填充变换后的矩形。至少有一边和目标矩形重叠。右下对齐。</p>
+</blockquote>
+<p>这里使用谷歌的api demo的图片作为例子：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1529568-2fedfc4125127377?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>我们很明显发现，那个蓝色的小球的变化不就是我们想要的变化么，并且我们是要居中，所以用的是<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">我们看下我们最终的效果：</span><br><span class="line"></span><br><span class="line">![image](http://upload-images.jianshu.io/upload_images/1529568-4f62cddad80877a5?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line"></span><br><span class="line">#### 3.图片实时手势缩放</span><br><span class="line"></span><br><span class="line">我们前面已经知道了。手势变化的时候会触发``onScale``方法,所以我们只要把图片的具体的放大缩小的逻辑放在``onScale``里面即可。</span><br></pre></td></tr></table></figure></p>
+<p>@Override<br>public boolean onScale(ScaleGestureDetector detector) {<br>    //缩放因子<br>    float scaleFactor = detector.getScaleFactor();<br>    //返回组成该手势的两个触点的中点在组件上的x和y轴坐标，单位为像素。<br>    float focusX = detector.getFocusX();<br>    float focusY = detector.getFocusY();<br>    //如果为nan或者无强大，则无效<br>    if (Float.isNaN(scaleFactor) || Float.isInfinite(scaleFactor)) {<br>        return false;<br>    }<br>    //进行缩放，传入x轴缩放比例，y轴缩放比例，缩放中心点的x和y值<br>    mSuppMatrix.postScale(scaleFactor, scaleFactor, focusX, focusY);<br>    if(checkMatrixBounds()) {<br>        ivPhoto.setImageMatrix(getDrawMatrix());<br>    }</p>
+<pre><code>return true;
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">大家应该看到了我这边有个``checkMatrixBounds``方法，本来其实单纯的缩放就是先``postScale``然后在直接``setImageMatrix``就可以了。</span><br></pre></td></tr></table></figure></p>
+<p>mSuppMatrix.postScale(scaleFactor, scaleFactor, focusX, focusY);<br>ivPhoto.setImageMatrix(getDrawMatrix());<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">但是这样有什么不好的地方呢。我来具体跟大家说下：</span><br><span class="line">- 缩放跟手势的二个触点的中心有关，而且图片会随着那个方向移动</span><br><span class="line"></span><br><span class="line">![image](http://upload-images.jianshu.io/upload_images/1529568-4ff42972b840cdc4?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line"></span><br><span class="line">比如我是二个红点分别是我的手指，然后不停的缩小图片动作，图片不仅变小，而且会随着那个方向做平移。放大则相反。这不是我们想要的，我们想要的是同样是做缩放，同时，图片还在中间。</span><br><span class="line"></span><br><span class="line">**既然我们知道了图片在做缩小放大的同时还在平移，那我们就做相应的反方向的平移处理不就好了**</span><br><span class="line"></span><br><span class="line">我们分为二种情况：</span><br><span class="line">#### 1— 图片在缩放过程中，宽或者高没有超过ImageView的宽或者高：</span><br><span class="line">如果图片再缩放过程中没超过ImageView的大小。我们只需要让图片一直居中现实即可。所以比较简单：</span><br><span class="line"></span><br><span class="line">![image](http://upload-images.jianshu.io/upload_images/1529568-6324bacbbee4cbf0?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line"></span><br><span class="line">只要算出我们在前面第二个大步里面的初始化后的图片的初始状态后（即和ImageView相适应并且居中），相应的图片的矩阵的宽和高是不是超过ImageView。如果没有超过，我们可以看到我们希望的图片放大和缩小都是希望在正中间的位置，但是现在变成了绿色的地方，我们只需要把绿色的地方移动到咖啡色的地方就行。</span><br><span class="line"></span><br><span class="line">以Y轴为例（X轴同样处理）：</span><br><span class="line"></span><br><span class="line">![image](http://upload-images.jianshu.io/upload_images/1529568-b1266889a852a0d1?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">看到距离是(实际图片的Top值) - (2分之一的ImageView的高度) + (2分之一的实际图片高度)，因为是往上移动，所以Y轴实际上是要减少值的，所以最终我们只要让实际的图片减去相应的距离值即可。</span><br><span class="line"></span><br><span class="line">- 实际图片的TOP值（先获取相应的实际图片的矩阵Rect，在获取top属性）：</span><br></pre></td></tr></table></figure></p>
+<p>  private RectF getDisplayRect(Matrix matrix) {<br>    Drawable d = drawable;<br>    if (d != null) {<br>        mDisplayRect.set(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());<br>        matrix.mapRect(mDisplayRect);<br>        return mDisplayRect;<br>    }<br>    return null;<br>  }<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ImageView的高度：</span><br></pre></td></tr></table></figure></p>
+<p>viewHeight = ivPhoto.getHeight() - ivPhoto.getPaddingLeft() - ivPhoto.getPaddingRight();<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 实际变化后的图片的高度(rect为上面获取的实际图片的Rect)：</span><br><span class="line"> ``final float height = rect.height(), width = rect.width();``</span><br><span class="line"></span><br><span class="line">所以我们这里只需要：</span><br></pre></td></tr></table></figure></p>
+<p>private boolean checkMatrixBounds() {<br>    RectF rect = getDisplayRect(getDrawMatrix());<br>    if (rect == null) {<br>        return false;<br>    }</p>
+<pre><code>final float height = rect.height(), width = rect.width();
+float deltaX = 0, deltaY = 0;
+
+if (height &lt;= viewHeight) {
+    deltaY = (viewHeight - height) / 2 - rect.top;
+}
+
+if (width &lt;= viewWidth) {
+    deltaX = (viewWidth - width) / 2 - rect.left;
+}
+
+ mSuppMatrix.postTranslate(deltaX, deltaY);
+return true;
+</code></pre><p>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">#### 2— 图片在缩放过程中，宽或者高超过ImageView的宽或者高：</span><br><span class="line">这个时候我们就不行简单的在中心位置就可以了。因为这时候不能反而不让他在中心位置，为什么？？？？我们现在的图片是一个安卓机器人，比如我现在要放大它的图片查看它的右眼，我们在右上角用手机不挺放大。变成这样：</span><br><span class="line"></span><br><span class="line">![&#125;)ZABEPQ(1V_&#125;6461ME&#123;O&#123;N.png](http://upload-images.jianshu.io/upload_images/1529568-f155aae6ea39a581.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这时候就说了。那我什么都不处理，放大这边就是这个效果啊。说的没错的确这样，但是比如现在已经放大成这个样子了。我缩小它，但是我不是从右上角来进行缩小，而是在左边进行缩小，大家知道我们不做处理，这时候缩小的时候是按我们手势的位置进行，所以头像在缩小时候先是往左边方向，然后当小于ImageView的高度时候，又突然居中，效果很不好。</span><br><span class="line"></span><br><span class="line">所以我们这个例子里面处理方式是：如果宽度都大于ImageView并且图片的右边界还没出现在ImageView中的时候，先按照自己原来的方式缩小，当图片的右边界出现在了ImageView的范围内了，让它慢慢往右边移动（也就是ImageView的宽度 - Rect.right的距离），这时候就会很和谐。最后宽度小于ImageView的时候居于中间。</span><br><span class="line"></span><br><span class="line">&gt;PS:还有一种正好反过来。我们放大的图片是左眼！！（这时候移动的距离是 -rect.left）</span><br><span class="line"></span><br><span class="line">所以最终变成这样：</span><br></pre></td></tr></table></figure>
+<p>private boolean checkMatrixBounds() {<br>    RectF rect = getDisplayRect(getDrawMatrix());<br>    if (rect == null) {<br>        return false;<br>    }</p>
+<pre><code>final float height = rect.height(), width = rect.width();
+float deltaX = 0, deltaY = 0;
+
+if (height &lt;= viewHeight) {
+    deltaY = (viewHeight - height) / 2 - rect.top;
+} else if (rect.top &gt; 0) {
+    deltaY = -rect.top;
+} else if (rect.bottom &lt; viewHeight) {
+    deltaY = viewHeight - rect.bottom;
+}
+
+
+if (width &lt;= viewWidth) {
+    deltaX = (viewWidth - width) / 2 - rect.left;
+} else if (rect.left &gt; 0) {
+    deltaX = -rect.left;
+} else if (rect.right &lt; viewWidth) {
+    deltaX = viewWidth - rect.right;
+}
+
+mSuppMatrix.postTranslate(deltaX, deltaY);
+return true;
+</code></pre><p>}<br>```</p>
+<hr>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>还是老样子，希望大家不要吐槽。有问题留言哈哈。。O(∩_∩)O哈哈~</p>
+<p>附上Demo地址：<a href="https://github.com/qaz349293703/ScaleImageVewDemo" target="_blank" rel="noopener">ScaleImageVewDemo</a></p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted" style="font-size: medium">
+          相关传送地址：
+        </p>
+
+        <p class="copyright text-muted" style="font-size: medium">
+          <a href="http://www.jianshu.com/u/5aad180d1ea8">简书个人链接</a>
+          <a href="https://juejin.im/user/56e0cd86f3609a0054e4a3c4">掘金个人链接</a>
+        </p>
+
+
+        <p class="copyright text-muted" style="display: none">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted" style="display: none">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
